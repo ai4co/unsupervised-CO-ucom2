@@ -1,0 +1,80 @@
+# built up based on https://github.com/Thinklab-SJTU/One-Shot-Cardinality-NN-Solver
+# we use the following packages
+# torch                  1.11.0
+# torch-geometric        2.1.0
+# torch-scatter          2.0.9
+# torch-sparse           0.6.13
+# torch-spline-conv      1.2.1
+
+# pip install torch==1.11.0+${CUDA} --extra-index-url https://download.pytorch.org/whl/${CUDA}
+# pip install torch-sparse==0.6.13 torch-spline-conv==1.2.1 torch-scatter==2.0.9 -f https://data.pyg.org/whl/torch-${TORCH}+${CUDA}.html
+# pip install torch-geometric==2.1.0.post1
+# pip install ortools easydict matplotlib yfinance pandas cvxpylayers xlwt pyyaml gurobipy
+
+
+####################### methods #######################
+# cpu methods           : random / gurobi / scip / greedy
+# CardNN methods        : cardnn-s / cardnn-gs / cardnn-hgs 
+# CardNN-noTTO methods  : cardnn-notto-s / cardnn-notto-gs / cardnn-notto-hgs
+# EGN method            : egn-naive
+# ours (UCom2)          : ucom2
+
+
+####################### facility location #######################
+# dataset               : rand500 / rand800 / starbucks / mcd / subway
+
+# cpu methods           : random / gurobi / scip / greedy
+python facility_location_[method].py --cfg cfg/facility_location_[dataset].yaml --timestamp [seed]
+# <Example> python facility_location_random.py --cfg cfg/facility_location_rand500.yaml --timestamp 0
+# <Example> python facility_location_gurobi.py --cfg cfg/facility_location_rand500.yaml --timestamp 0
+# <Example> python facility_location_scip.py --cfg cfg/facility_location_rand500.yaml --timestamp 0
+# <Example> python facility_location_greedy.py --cfg cfg/facility_location_rand500.yaml --timestamp 0
+
+
+# CardNN methods        : cardnn-s / cardnn-gs / cardnn-hgs
+# CardNN-noTTO methods  : cardnn-notto-s / cardnn-notto-gs / cardnn-notto-hgs
+python facility_location_[method].py --cfg cfg/facility_location_[dataset].yaml --lr [learning_rate] --reg [gumbel_sigma] --timestamp [seed]
+# <Example> python facility_location_cardnn-hgs.py --cfg cfg/facility_location_rand500.yaml --lr 1e-4 --reg 0.25 --timestamp 0
+# <Example> python facility_location_cardnn-notto-hgs.py --cfg cfg/facility_location_rand500.yaml --lr 1e-4 --reg 0.25 --timestamp 0
+
+
+# EGN method            : egn-naive
+# ours (UCom2)          : ucom2
+python facility_location_[method].py --cfg cfg/facility_location_[dataset].yaml --lr [learning_rate] --reg [constraint_coefficient] --timestamp [seed]
+# <Example> python facility_location_egn-naive.py --cfg cfg/facility_location_rand500.yaml --lr 1e-2 --reg 1e-2 --timestamp 0
+# <Example> python facility_location_ucom2.py --cfg cfg/facility_location_rand500.yaml --lr 1e-2 --reg 1e-2 --timestamp 0
+
+
+# For the RL method, we adapted code from https://github.com/ai4co/rl4co
+# Please follow the installation guidance thereof
+# See the files in the RL folder: facility_location_rl_*.py
+# <Example> python RL/facility_location_rl_rand500.py --ds rand500_train
+
+
+
+####################### maximum coverage #######################
+# dataset               : rand500 / rand1000 / twitch / rail
+
+# cpu methods           : random / gurobi / scip / greedy
+python max_cover_[method].py --cfg cfg/max_cover_[dataset].yaml --timestamp [seed]
+# <Example> python max_cover_random.py --cfg cfg/max_cover_rand500.yaml --timestamp 0
+# <Example> python max_cover_gurobi.py --cfg cfg/max_cover_rand500.yaml --timestamp 0
+# <Example> python max_cover_scip.py --cfg cfg/max_cover_rand500.yaml --timestamp 0
+# <Example> python max_cover_greedy.py --cfg cfg/max_cover_rand500.yaml --timestamp 0
+
+# CardNN methods        : cardnn-s / cardnn-gs / cardnn-hgs 
+# CardNN-noTTO methods  : cardnn-notto-s / cardnn-notto-gs / cardnn-notto-hgs
+python max_cover_[method].py --cfg cfg/max_cover_[dataset].yaml --lr [learning_rate] --reg [gumbel_sigma] --timestamp [seed]
+# <Example> python max_cover_cardnn-hgs.py --cfg cfg/max_cover_rand500.yaml --lr 1e-5 --reg 0.15 --timestamp 0
+# <Example> python max_cover_cardnn-notto-hgs.py --cfg cfg/max_cover_rand500.yaml --lr 1e-5 --reg 0.15 --timestamp 0
+
+# EGN method            : egn-naive
+# ours (UCom2)          : ucom2
+python max_cover_[method].py --cfg cfg/max_cover_[dataset].yaml --lr [learning_rate] --reg [constraint_coefficient] --timestamp [seed]
+# <Example> python max_cover_egn-naive.py --cfg cfg/max_cover_rand500.yaml --lr 1e-5 --reg 0.15 --timestamp 0
+# <Example> python max_cover_ucom2.py --cfg cfg/max_cover_rand500.yaml --lr 1e-5 --reg 0.15 --timestamp 0
+
+# For the RL method, we adapted code from https://github.com/ai4co/rl4co
+# Please follow the installation guidance thereof
+# See the files in the RL folder: facility_location_rl_*.py
+# <Example> python RL/max_cover_rl_rand500.py --ds rand500_train
