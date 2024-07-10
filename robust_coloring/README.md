@@ -26,7 +26,10 @@ python DC.py --ds [dataset] --c [number_of_colors]
 python gurobi.py --graph_name [dataset] --num_colors [number_of_colors] --timeout_sec 300 --num_seeds 5
 ```
 
-# ours
+Below are the commands for running the proposed method
+```
 python ucom2.py --ds [dataset] --c [number_of_colors] --npam [number_of_initial_parameters]
 python ucom2-cpu.py --ds [dataset] --c [number_of_colors] --npam [number_of_initial_parameters]
-# with a larger number of initial parameters, you use more time and memory for better optimization performance
+```
+
+Note: With a larger number of initial parameters, you use more time and memory for better optimization performance
